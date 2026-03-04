@@ -144,21 +144,46 @@ button {
 
 <!-- экран 1 -->
 <div id="screen1" class="screen">
-<h1>💖 Алиса, почему я тебя люблю</h1>
+<h1>💖 Алиса, почему я тебя люблю?</h1>
 
 <div class="card" onclick="toggle(this)">
 Твоя нежность
-<p class="hidden">Ты делаешь мою жизнь лучше</p>
+<p class="hidden">Ты делаешь мою жизнь спокойной, тёплой и по-настоящему счастливой</p>
 </div>
 
 <div class="card" onclick="toggle(this)">
 Твой смех
-<p class="hidden">Он делает меня счастливым</p>
+<p class="hidden">Он самый родной звук для меня, от него у меня всегда поднимается настроение</p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+Твоя забота
+<p class="hidden">Ты умеешь поддержать, понять и просто быть рядом, когда это нужно</p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+Твоя улыбка
+<p class="hidden">У тебя прекрасная улыбка, ты делаешь этот мир лучше просто тем, что ты есть</p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+Твоя красота
+<p class="hidden">Ты невероятно красивая - и внешне, и внутри</p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+Твой характер
+<p class="hidden">Ты сильная, умная и особенная, и я очень горжусь тобой</p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+Наши моменты
+<p class="hidden">Каждое время, проведённое с тобой, для меня бесценно</p>
 </div>
 
 <div class="card" onclick="toggle(this)">
 Ты
-<p class="hidden">Просто потому что ты — это ты</p>
+<p class="hidden">Просто потому что ты — это ты, и я люблю тебя всей душой ❤️</p>
 </div>
 
 <button onclick="next(2)">Далее →</button>
@@ -310,12 +335,29 @@ icons.forEach(icon=>{
 
   game.appendChild(div);
 });
+  function autoCards(){
+  let cards = document.querySelectorAll("#screen1 .card");
+  
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      let text = card.querySelector("p");
+      text.classList.remove("hidden");
+      card.style.transform = "scale(1.05)";
+      
+      setTimeout(() => {
+        card.style.transform = "scale(1)";
+      }, 300);
+      
+    }, index * 800); // скорость (можно менять)
+  });
+}
 
 </script>
 
 </body>
 
 </html>
+
 
 
 
