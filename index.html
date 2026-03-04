@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Алиса ❤️</title>
+
+<style>
+
+/* ОСНОВА */
+body {
+  margin:0;
+  font-family: Arial;
+  background: #ff8fa3; /* ровный розовый */
+  color:white;
+  text-align:center;
+}
+
+/* экраны */
+.screen {
+  display:none;
+  padding:20px;
+  min-height:100vh;
+  animation: fade 0.6s ease;
+}
+
+.active { display:block; }
+
+@keyframes fade {
+  from {opacity:0; transform:translateY(30px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+/* карточки */
+.card {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  margin:12px;
+  padding:18px;
+  border-radius:20px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* кнопки */
+button {
+  margin-top:25px;
+  padding:14px 24px;
+  background:white;
+  color:#ff4d6d;
+  border:none;
+  border-radius:30px;
+  font-weight:bold;
+  font-size:16px;
+}
+
+/* игра */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:10px;
+  max-width:320px;
+  margin:20px auto;
+}
+
+.game-card {
+  background:white;
+  color:#ff4d6d;
+  padding:20px;
+  border-radius:15px;
+  font-size:20px;
+}
+
+.matched {
+  background:lightgreen;
+}
+
+/* фото */
+.container {
+  height:100vh;
+  overflow-y:auto;
+  scroll-snap-type:y mandatory;
+}
+
+.slide {
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  scroll-snap-align:start;
+}
+
+.slide img {
+  width:80%;
+  max-width:300px;
+  border-radius:20px;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+  transition:0.4s;
+}
+
+.slide img:hover {
+  transform: scale(1.05);
+}
+
+/* сердечки */
+.heart {
+  position: fixed;
+  bottom: -10px;
+  font-size: 20px;
+  animation: float 6s linear infinite;
+  opacity:0.8;
+}
+
+@keyframes float {
+  0% {transform:translateY(0); opacity:1;}
+  100% {transform:translateY(-100vh); opacity:0;}
+}
+
+/* печать текста */
+.typing {
+  border-right: 2px solid white;
+  display:inline-block;
+  white-space: nowrap;
+  overflow:hidden;
+}
+
+.hidden { display:none; }
+
+</style>
+</head>
+
+<body>
+
+<!-- старт -->
+<div id="start" class="screen active">
+<h1>💖 Нажми, Алиса</h1>
+<button onclick="startApp()">Открыть</button>
+</div>
+
+<!-- экран 1 -->
+<div id="screen1" class="screen">
+<h1>💖 Алиса, почему я тебя люблю</h1>
+
+<div class="card" onclick="toggle(this)">
+Твоя нежность
+<p class="hidden">Ты делаешь мою жизнь лучше</p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+Твой смех
+<p class="hidden">Он делает меня счастливым</p>
+</div>
+
+<div class="card" onclick="toggle(this)">
+Ты
+<p class="hidden">Просто потому что ты — это ты</p>
+</div>
+
+<button onclick="next(2)">Далее →</button>
+</div>
+
+<!-- игра -->
+<div id="screen2" class="screen">
+<h1>🎮 Найди пары</h1>
+<div class="grid" id="game"></div>
+<button onclick="next(3)">Далее →</button>
+</div>
+
+<!-- фото -->
+<div id="screen3" class="screen">
+
+<div class="container">
+
+  <div class="slide">
+    <h1>📸 Наши моменты</h1>
+    <p>Листай вниз 💕</p>
+  </div>
+
+  <div class="slide"><img src="img/1.jpg"></div>
+  <div class="slide"><img src="img/2.jpg"></div>
+  <div class="slide"><img src="img/3.jpg"></div>
+  <div class="slide"><img src="img/4.jpg"></div>
+  <div class="slide"><img src="img/5.jpg"></div>
+  <div class="slide"><img src="img/6.jpg"></div>
+  <div class="slide"><img src="img/7.jpg"></div>
+
+</div>
+
+<button onclick="next(4)">Далее →</button>
+
+</div>
+
+<!-- финал -->
+<div id="screen4" class="screen">
+<h1>🌸 с 8 марта, любимая!</h1>
+<p id="text" class="typing"></p>
+
+<br><br>
+
+<a href="https://example.com" target="_blank">
+<button>🎁 Твой подарок</button>
+</a>
+</div>
+
+<!-- музыка -->
+<audio id="music" loop>
+<source src="music.mp3">
+</audio>
+
+<script>
+
+// запуск
+function startApp(){
+  document.getElementById("start").classList.remove("active");
+  document.getElementById("screen1").classList.add("active");
+  document.getElementById("music").play();
+}
+
+// переключение
+function next(n){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("screen"+n).classList.add("active");
+if(n===4) typeText();
+}
+
+// раскрытие
+function toggle(el){
+  el.querySelector("p").classList.toggle("hidden");
+}
+
+// сердечки
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"%";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},400);
+
+// печать
+let message = "Ты — самое лучшее, что есть в моей жизни. Я безумно тебя люблю ❤️";
+let i=0;
+
+function typeText(){
+  let el=document.getElementById("text");
+  el.innerHTML="";
+  i=0;
+
+  let interval=setInterval(()=>{
+    el.innerHTML += message[i];
+    i++;
+    if(i>=message.length) clearInterval(interval);
+  },40);
+}
+
+// игра
+let icons = ["💖","🌹","🎀","🧸","💖","🌹","🎀","🧸"];
+icons.sort(()=>0.5-Math.random());
+
+let first=null;
+let lock=false;
+const game=document.getElementById("game");
+
+icons.forEach(icon=>{
+  let div=document.createElement("div");
+  div.className="game-card";
+  div.innerHTML="❓";
+
+  div.onclick=()=>{
+    if(lock || div.innerHTML!=="❓") return;
+
+    div.innerHTML=icon;
+
+    if(!first){
+      first=div;
+    } else {
+      lock=true;
+      setTimeout(()=>{
+        if(first.innerHTML===div.innerHTML){
+          first.classList.add("matched");
+          div.classList.add("matched");
+        } else {
+          first.innerHTML="❓";
+          div.innerHTML="❓";
+        }
+        first=null;
+        lock=false;
+      },500);
+    }
+  }
+
+  game.appendChild(div);
+});
+
+</script>
+
+</body>
+</html>
