@@ -221,12 +221,17 @@ function startApp(){
 
   let music = document.getElementById("music");
 
-  music.currentTime = 0;
   music.volume = 1;
 
-  music.play().catch(() => {
-    alert("Нажми ещё раз, чтобы включить музыку 💖");
-  });
+  let playPromise = music.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      document.body.addEventListener("click", () => {
+        music.play();
+      }, { once: true });
+    });
+  }
 }
 
 // переключение
@@ -311,5 +316,6 @@ icons.forEach(icon=>{
 </body>
 
 </html>
+
 
 
