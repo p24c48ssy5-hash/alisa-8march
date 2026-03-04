@@ -220,7 +220,15 @@ function startApp(){
   document.getElementById("screen1").classList.add("active");
 
   let music = document.getElementById("music");
-  music.play().catch(()=>{});
+
+  music.currentTime = 0;
+  music.volume = 1;
+
+  music.play().then(() => {
+    console.log("Музыка играет");
+  }).catch(err => {
+    console.log("Ошибка:", err);
+  });
 }
 
 // переключение
@@ -305,3 +313,4 @@ icons.forEach(icon=>{
 </body>
 
 </html>
+
