@@ -209,7 +209,7 @@ button {
 
 <!-- музыка -->
 <audio id="music" loop>
-<source src="music.mp3">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -218,7 +218,9 @@ button {
 function startApp(){
   document.getElementById("start").classList.remove("active");
   document.getElementById("screen1").classList.add("active");
-  document.getElementById("music").play();
+
+  let music = document.getElementById("music");
+  music.play().catch(()=>{});
 }
 
 // переключение
@@ -301,4 +303,5 @@ icons.forEach(icon=>{
 </script>
 
 </body>
+
 </html>
